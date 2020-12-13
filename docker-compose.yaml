@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  bdsx-weekly:
+    build:
+      context: ./
+    ports:
+      - 19132:19132/udp
+    
+    # uncomment to mount data directory to local filesystem
+    # allowing you access to the server directory from your current env
+    volumes:
+      - ./example:/bdsx-script
+    #  - ./data:/data
+    command: /bdsx-script
+    environment: 
+      EULA: "true"
+      # none of these have to be passed in... their values will auto-populate if absent
+      BDSX_VERSION: latest
+      SERVER_NAME: Welcome to BDSX minecraft server in linux
+      MAX_PLAYERS: 20
+      GAMEMODE: creative
+      DIFFICULTY: normal
+      LEVEL_NAME: my-awesome-level
+      LEVEL_SEED: bdsx
+    stdin_open: true
+    tty: true
+    restart: always
