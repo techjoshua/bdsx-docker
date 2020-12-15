@@ -7,13 +7,17 @@ FROM ubuntu:20.04
 #  - unzip because we need it to install node
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wine wine64 \
-    curl unzip jq
+    curl unzip jq \
+    && apt-get clean autoclean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/cache/apt/lists
 
 # Install nodejs and npm - these are used to run the bdsx installer
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -E - \
-    && apt-get install -y nodejs npm \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get update && apt-get install -y --no-install-recommends nodejs npm \
+    && apt-get clean autoclean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/cache/apt/lists
 
 # Install itzg helper binaries for bedrock servers
 #   - entrypoint-demoter: among other things, translates SIGTERM signals to stdin "stop" commands to gracefully stop the server
