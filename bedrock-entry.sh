@@ -60,5 +60,11 @@ fi
 # populate server.propertes from env variables
 set-property --file server.properties --bulk /etc/bds-property-definitions.json
 
+# use vmtouch to keep the world files loaded in memory...
+if [[ ${KEEP_WORLD_IN_RAM^^} == TRUE ]]; then
+  echo "vmtouch: --- Attempting to keep world files in RAM ---"
+  vmtouch -ld /data/worlds
+fi
+
 # Start the server
 exec wine64 "bedrock_server.exe" "$@"

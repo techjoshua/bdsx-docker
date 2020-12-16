@@ -23,6 +23,11 @@ services:
       DIFFICULTY: normal
       LEVEL_NAME: my-awesome-level
       LEVEL_SEED: bdsx
+      KEEP_WORLD_IN_RAM: "true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     stdin_open: true
     tty: true
     restart: always

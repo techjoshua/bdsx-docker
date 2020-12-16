@@ -1,4 +1,17 @@
+FROM ubuntu:20.04 AS vmtouch
+RUN apt-get update && apt-get install -y \
+    build-essential \ 
+    git
+
+RUN cd /usr/share/ \
+ && git clone https://github.com/hoytech/vmtouch.git \
+ && cd vmtouch \
+ && make \
+ && make install
+
 FROM ubuntu:20.04
+
+COPY --from=vmtouch /usr/local/bin/vmtouch /usr/local/bin/vmtouch
 
 # Install wine, curl, unzip, jq
 #  - wine for running the windows bedrock server
